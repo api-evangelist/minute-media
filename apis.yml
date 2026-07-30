@@ -1,8 +1,28 @@
 aid: minute-media
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/minute-media.png
 name: Minute Media
-description: Minute Media is a company surfaced as a portfolio company of battery-ventures and added to
-  the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment
-  pipeline.
+description: >-
+  Minute Media is a global technology, media, and advertising company that builds and operates
+  digital sports and entertainment content brands while licensing publishing and monetization
+  technology to third parties. Its owned-and-operated properties include Sports Illustrated,
+  The Players' Tribune, 90min, Mental Floss, FanSided, The Big Lead, and DBLTAP, reaching a
+  reported 200+ million monthly users. On the technology side it offers the STN Online Video
+  Platform (OVP) for video publishing and monetization, a Minute Media SSP for programmatic
+  advertising, and ad-management solutions for publishers. Minute Media was surfaced as a
+  portfolio company of Battery Ventures and added to the API Evangelist network for enrichment.
+  As of this pass the company publishes no public developer portal, API documentation, or
+  machine-readable API definitions on its primary web properties.
 url: https://raw.githubusercontent.com/api-evangelist/minute-media/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -12,10 +32,33 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-20'
+x-enrichment:
+  date: '2026-07-20'
+  status: enriched
+  artifacts_added: 1
+  pass: local-v1
 tags:
 - Company
+- Media
+- Sports
+- Advertising
+- Video
+- Publishing
+- AdTech
+- Content
 apis: []
+common:
+- type: DomainSecurity
+  url: security/minute-media-domain-security.yml
+- type: Packages
+  url: packages/minute-media-packages.yml
+- type: Website
+  url: https://www.minutemedia.com
+- type: Company
+  url: https://www.minutemedia.com/company/about
+- type: Blog
+  url: https://www.stnvideo.com/category/newsroom/
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
