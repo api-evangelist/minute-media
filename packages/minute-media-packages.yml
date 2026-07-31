@@ -1,0 +1,27 @@
+generated: '2026-07-20'
+method: searched
+source: WordPress.org plugin directory (api.wordpress.org plugin info) + stnvideo.com resources
+notes: >-
+  Minute Media publishes no first-party client SDK for a REST/GraphQL API (the company
+  exposes no public developer API). Its one published, first-party distributable package
+  is a WordPress plugin for its STN Video (formerly SendtoNews) Online Video Platform, which
+  registers STN Video as an oEmbed provider so publishers can embed players. Captured as a
+  Package, not an SDK, because it is an embed/oEmbed integration rather than a programmatic
+  API client library.
+packages:
+- name: STN Video oEmbed
+  ecosystem: wordpress
+  slug: sendtonews-oembed
+  official: true
+  version: 1.0.2
+  author: STN Video
+  author_profile: https://profiles.wordpress.org/sendtonews/
+  homepage: https://wordpress.org/plugins/sendtonews-oembed/
+  requires_wordpress: '3.0'
+  tested_wordpress: 6.6.5
+  last_updated: '2024-09-04'
+  downloaded: 3263
+  description: >-
+    The STN Video oEmbed plugin adds STN Video (formerly SendtoNews) as an oEmbed
+    provider and adds it to the whitelist.
+  kind: wordpress-plugin
