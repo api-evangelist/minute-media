@@ -1,0 +1,109 @@
+generated: '2026-08-12'
+method: probed
+source: >-
+  Live requests to https://api.sendtonews.com/api/v1/ and
+  https://embed.sendtonews.com/services/oembed on 2026-08-12, plus the first-party STN
+  Video WordPress Player Selector plugin v1.2.2 (assets/js/loader.js, app/Controllers/).
+docs: https://www.stnvideo.com/resources/our-wordpress-ovp-plugin/
+notes: >-
+  Cross-cutting request/response semantics for the two live Minute Media / STN Video API
+  surfaces. Everything below is observed on the wire or read from the company's own client
+  code — Minute Media publishes no conventions or design guide. Written so an integrator
+  (or an agent) can call these surfaces correctly without guessing.
+surfaces:
+- name: STN Video oEmbed API
+  base_url: https://embed.sendtonews.com/services/oembed
+  style: oEmbed 1.0 (REST, GET)
+  auth: none
+- name: STN Video Publisher API
+  base_url: https://api.sendtonews.com/api/v1/
+  style: RPC-over-POST (every operation is a POST, including reads)
+  auth: cid + authcode in the request body
+authentication:
+  style: credential pair in POST body (Publisher API); none (oEmbed)
+  reference: authentication/minute-media-authentication.yml
+http_methods:
+  note: >-
+    The Publisher API uses POST for read operations (players, categories, stories) as well
+    as for the verification call. There is no GET/PUT/PATCH/DELETE surface, so the methods
+    carry no safety or idempotency semantics.
+  observed: [POST]
+idempotency:
+  supported: false
+  header: null
+  evidence: >-
+    No Idempotency-Key header, no request-id echo, and no retry guidance appears in the
+    first-party client or in any live response header. All observed operations are reads
+    expressed as POSTs; there is no documented write surface to make idempotent.
+pagination:
+  style: offset-length
+  applies_to: POST /api/v1/stories
+  parameters:
+  - {name: start, description: zero-based offset, source: plugin loader.js}
+  - {name: length, description: page size; the plugin requests length+1 to detect a next page, source: plugin loader.js}
+  response_fields: not documented
+  note: >-
+    There is no cursor, no total count, and no next-link. The provider's own client detects
+    "more results" by over-fetching one row, which is the pattern an integrator has to copy.
+filtering:
+  applies_to: POST /api/v1/stories
+  parameters:
+  - {name: search, description: free-text search term}
+  - {name: age, description: recency filter (integer bucket)}
+  - {name: lang, description: 'content language; observed values EN, ES, All'}
+  - {name: category, description: 'category slug; defaults to all'}
+  - {name: subCategory, description: sub-category slug}
+  - {name: reason, description: client-supplied telemetry for why the query fired}
+content_negotiation:
+  oembed_formats: [json, xml]
+  parameter: format
+  note: Both formats verified live; XML is a well-formed <oembed> document per the oEmbed 1.0 spec.
+error_envelope:
+  shapes: 2
+  reference: errors/minute-media-error-codes.yml
+  note: Two incompatible JSON error shapes are served from the same host.
+versioning:
+  scheme: uri-path
+  current: v1
+  base: https://api.sendtonews.com/api/v1/
+  oembed: version field "1.0" returned in every oEmbed payload
+  reference: lifecycle/minute-media-lifecycle.yml
+rate_limit_signaling:
+  headers: []
+  evidence: >-
+    No X-RateLimit-*, RateLimit-*, or Retry-After header was present on any observed
+    response from either host.
+  reference: rate-limits/minute-media-rate-limits.yml
+caching:
+  oembed_cache_age: '86400'
+  response_headers: 'cache-control: private, no-store (both hosts)'
+  cdn: Amazon CloudFront fronts both API hosts (via/x-amz-cf-id headers observed)
+cors:
+  access_control_allow_origin: '*'
+  access_control_allow_methods: [PUT, POST, DELETE, PATCH]
+  access_control_allow_headers:
+  - X-Client-Key
+  - Origin
+  - Content-Type
+  - Accept
+  - Authorization
+  - MM-Tenant
+  - MM-Ad-Server-Historical-Data
+  - mmtarget
+  - X-MM-Property
+  - X-MM-Organization
+  note: >-
+    The CORS allow-headers list is the strongest public evidence that these hosts are now
+    Minute Media infrastructure — the platform advertises MM-Tenant, X-MM-Property and
+    X-MM-Organization tenancy headers, and an X-Client-Key and Authorization header, none
+    of which appear in any published documentation. That is an undocumented multi-tenant
+    contract sitting one header away from the public surface.
+request_tracing:
+  header: null
+  note: No first-party request-id header; only CloudFront's x-amz-cf-id is returned.
+gaps:
+- No idempotency contract.
+- No rate-limit signaling.
+- No request-id correlation header for support.
+- Reads modelled as POST, so no HTTP caching or safe-retry semantics.
+- Tenancy headers advertised in CORS but undocumented.

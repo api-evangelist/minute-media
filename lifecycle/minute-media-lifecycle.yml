@@ -1,0 +1,59 @@
+generated: '2026-08-12'
+method: probed
+source: >-
+  Live probes of api.sendtonews.com / embed.sendtonews.com / stnvideo.com / minutemedia.com
+  on 2026-08-12, plus first-party WordPress plugin readmes and the STN Video publisher
+  resource pages.
+notes: >-
+  Minute Media publishes no versioning policy, no deprecation policy and no SLA for its API
+  surfaces. What follows is what can be observed. Recorded absences are deliberate — they
+  are the finding.
+versioning:
+  scheme: uri-path
+  current: v1
+  base: https://api.sendtonews.com/api/v1/
+  policy_url: null
+  note: >-
+    The `/api/v1/` prefix is the only versioning signal; there is no published policy for
+    how v2 would be introduced or how long v1 is supported.
+  oembed:
+    spec: oEmbed 1.0
+    version_field: '1.0'
+    note: The oEmbed endpoint returns `"version":"1.0"` per the oEmbed specification.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  evidence: >-
+    No Sunset or Deprecation response header (RFC 8594) was observed on any request to
+    either API host on 2026-08-12.
+sla:
+  url: null
+  uptime_target: null
+status_page:
+  url: null
+  probed:
+  - {url: 'https://status.stnvideo.com/', status: 'no DNS'}
+  - {url: 'https://status.minutemedia.com/', status: 'no DNS'}
+  note: >-
+    No status page exists on either the STN Video or Minute Media domain. No StatusPage
+    pointer is emitted in apis.yml, because there is nothing to point at.
+brand_lifecycle:
+  note: >-
+    The API hosts still carry the pre-acquisition brand. SendtoNews was rebranded STN Video
+    and acquired by Minute Media in January 2024, then Minute Media acquired VideoVerse
+    (Magnifi) subsequently. The production API surface remained on sendtonews.com hosts —
+    api.sendtonews.com and embed.sendtonews.com — while the marketing, dashboard and AMP
+    surfaces moved to stnvideo.com. The oEmbed payload still returns
+    `"provider_name":"SendtoNews"` and `"provider_url":"http://www.sendtonews.com/"` (over
+    plain HTTP), two brands behind the current company name.
+  events:
+  - {date: '2024-01', event: Minute Media acquires STN Video (formerly SendtoNews)}
+  - {date: '2025-04-23', event: 'STN Video WordPress Player Selector v1.2.2 published (zip last-modified)'}
+  - {date: '2024-09-04', event: 'STN Video oEmbed WordPress plugin v1.0.2 published — rebrand only, no technical change'}
+deprecated_operations: []
+gaps:
+- No deprecation policy or Sunset/Deprecation header support.
+- No status page or published SLA.
+- No versioning policy behind the /api/v1/ path segment.
+- Production API hostnames and oEmbed provider metadata still carry a retired brand.

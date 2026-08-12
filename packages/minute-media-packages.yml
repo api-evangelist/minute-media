@@ -1,27 +1,80 @@
-generated: '2026-07-20'
+generated: '2026-08-12'
 method: searched
-source: WordPress.org plugin directory (api.wordpress.org plugin info) + stnvideo.com resources
+source: >-
+  WordPress.org plugin API (api.wordpress.org/plugins/info/1.2/) and the first-party
+  self-hosted distribution at https://www.stnvideo.com/wp-plugin/sendtonews.zip, both
+  fetched 2026-08-12.
 notes: >-
-  Minute Media publishes no first-party client SDK for a REST/GraphQL API (the company
-  exposes no public developer API). Its one published, first-party distributable package
-  is a WordPress plugin for its STN Video (formerly SendtoNews) Online Video Platform, which
-  registers STN Video as an oEmbed provider so publishers can embed players. Captured as a
-  Package, not an SDK, because it is an embed/oEmbed integration rather than a programmatic
-  API client library.
+  Minute Media publishes no client SDK for any language on npm, PyPI, RubyGems, Packagist,
+  Maven Central, NuGet, crates.io or pkg.go.dev — there is no programmatic API client
+  library to install. What it does ship, first-party, is two WordPress plugins that
+  integrate publishers with the STN Video platform. One is distributed through the
+  WordPress.org registry (which answers with real version metadata); the other is
+  distributed only as a zip from stnvideo.com, so it has no registry metadata endpoint and
+  its currency has to be read from the plugin header and the zip's Last-Modified. Both are
+  recorded as packages, not SDKs: they are CMS integrations, not API client libraries, so
+  no `SDKs` pointer is emitted in apis.yml.
 packages:
 - name: STN Video oEmbed
   ecosystem: wordpress
+  registry: wordpress.org
   slug: sendtonews-oembed
   official: true
   version: 1.0.2
+  published: '2024-09-04'
+  url: https://wordpress.org/plugins/sendtonews-oembed/
+  install: WordPress admin > Plugins > Add New > "STN Video oEmbed"
   author: STN Video
   author_profile: https://profiles.wordpress.org/sendtonews/
-  homepage: https://wordpress.org/plugins/sendtonews-oembed/
+  first_published: '2016-10-22'
   requires_wordpress: '3.0'
-  tested_wordpress: 6.6.5
-  last_updated: '2024-09-04'
-  downloaded: 3263
-  description: >-
-    The STN Video oEmbed plugin adds STN Video (formerly SendtoNews) as an oEmbed
-    provider and adds it to the whitelist.
+  tested_wordpress: 6.6.7
+  active_installs: 60
   kind: wordpress-plugin
+  description: >-
+    Registers STN Video (formerly SendtoNews) as a WordPress oEmbed provider, pointing at
+    https://embed.sendtonews.com/services/oembed, so editors can paste an STN embed link
+    into a post.
+  currency_note: >-
+    Last released 2024-09-04, and that release was a rebrand of the readme with no
+    technical change — the last functional change (1.0.1) predates the Minute Media
+    acquisition. Twenty lines of PHP, 60 active installs.
+- name: STN Video Player Selector
+  ecosystem: wordpress
+  registry: self-hosted
+  official: true
+  version: 1.2.2
+  published: '2025-04-23'
+  url: https://www.stnvideo.com/resources/our-wordpress-ovp-plugin/
+  download: https://www.stnvideo.com/wp-plugin/sendtonews.zip
+  source_repo: https://bitbucket.org/sendtonews/wp-player-selector
+  install: manual zip upload to wp-content/plugins
+  author: STN Video <wpadmin@stnvideo.com>
+  guide: https://stnvideo.com/wp-plugin/guide.pdf
+  requires_wordpress: '4.6'
+  tested_wordpress: '6.8'
+  kind: wordpress-plugin
+  size_bytes: 7521184
+  description: >-
+    The OVP plugin. Lets editors browse the publisher's STN Video library and Smart Match
+    players from inside WordPress and embed them via Blocks, Widgets, Shortcodes and
+    oEmbed. It is also the only publicly distributed client of the STN Video Publisher API
+    — it authenticates with a Company ID + Authentication Code against
+    https://api.sendtonews.com/api/v1/.
+  currency_note: >-
+    Not in the WordPress.org registry, so there is no metadata endpoint to query; version
+    read from the plugin header (1.2.2 — the bundled app config still says 1.2.1) and
+    published date read from the distribution zip's Last-Modified header
+    (2025-04-23T23:36:31Z). The source repository is a Bitbucket URL, not a public repo.
+sdks: []
+registries_checked:
+- {registry: npm, result: no first-party package}
+- {registry: pypi, result: no first-party package}
+- {registry: rubygems, result: no first-party package}
+- {registry: packagist, result: no first-party package}
+- {registry: crates.io, result: no first-party package}
+- {registry: nuget, result: no first-party package}
+- {registry: maven central, result: no first-party package}
+- {registry: pkg.go.dev, result: no first-party package}
+- {registry: wordpress.org, result: 1 first-party plugin (sendtonews-oembed)}
+- {registry: github, result: 'github.com/minutemedia exists with 0 public repos; github.com/SendtoNews holds 3 forks of third-party projects (amphtml, oembed spec, webpack-shell-plugin), last pushed 2018 — no first-party library'}

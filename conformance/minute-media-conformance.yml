@@ -1,0 +1,65 @@
+generated: '2026-08-12'
+method: probed
+source: >-
+  Live requests to https://embed.sendtonews.com/services/oembed and
+  https://api.sendtonews.com/api/v1/ on 2026-08-12, plus first-party plugin source.
+notes: >-
+  Standards conformance asserted only where it was observed on the wire. Minute Media
+  publishes no compliance program, certification list or trust center, so no Compliance
+  pointer is emitted in apis.yml.
+standards:
+- id: oembed-1.0
+  conforms: true
+  evidence: >-
+    https://embed.sendtonews.com/services/oembed returns a 200 oEmbed payload with the
+    required version/type fields plus provider_name, provider_url, author_name, title,
+    width, height, cache_age and html for type "video"; both format=json and format=xml
+    were served correctly, and the provider registers itself as an oEmbed provider through
+    its own WordPress plugin (wp_oembed_add_provider).
+  observed: '2026-08-12'
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors use two bespoke JSON envelopes; no application/problem+json is served.
+- id: oauth2
+  conforms: false
+  evidence: No oauth2 scheme; a cid/authcode pair is sent in the POST body.
+- id: openid-connect
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on every host.
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: false
+  evidence: /.well-known/oauth-authorization-server returns 404 on every host.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on every host.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No Sunset or Deprecation header observed.
+- id: ratelimit-headers
+  conforms: false
+  evidence: No RateLimit-* / X-RateLimit-* / Retry-After header observed.
+- id: openapi
+  conforms: false
+  evidence: >-
+    No OpenAPI or Swagger document at any probed location on any of the eight hosts
+    (see the contract-discovery record in llms/ and well-known/).
+- id: a2a-agent-card
+  conforms: false
+  evidence: /.well-known/agent-card.json and /.well-known/agent.json return 404 on every host.
+- id: amp-video-iframe
+  conforms: true
+  evidence: >-
+    https://amp.stnvideo.com/avi/?key= serves an AMP video-iframe integration page loading
+    https://cdn.ampproject.org/video-iframe-integration-v0.js, and the plugin emits an
+    AMP player variant for AMP pages.
+  observed: '2026-08-12'
+compliance_program:
+  published: false
+  certifications: []
+  trust_center: null
+  note: >-
+    No SOC 2 / ISO 27001 / PCI / HIPAA / FedRAMP claim is published on minutemedia.com or
+    stnvideo.com. The company publishes governance-adjacent policies instead — a privacy
+    policy, cookie policy, takedown policy, terms and conditions, and an Anti-Slavery and
+    Human Trafficking Statement (May 2026) — which are legal disclosures, not a security
+    compliance program.

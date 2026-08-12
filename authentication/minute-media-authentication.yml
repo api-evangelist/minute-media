@@ -1,0 +1,76 @@
+generated: '2026-08-12'
+method: probed
+source: >-
+  First-party STN Video WordPress Player Selector plugin source
+  (https://www.stnvideo.com/wp-plugin/sendtonews.zip, v1.2.2) plus live unauthenticated
+  requests to https://api.sendtonews.com/api/v1/ and
+  https://embed.sendtonews.com/services/oembed on 2026-08-12.
+docs: https://www.stnvideo.com/resources/our-wordpress-ovp-plugin/
+notes: >-
+  Minute Media publishes no OpenAPI and no API reference, so this profile is not derived
+  from a spec. It is read from the company's own distributed WordPress plugin — which is
+  a first-party client of the STN Video Publisher API — and confirmed against live
+  unauthenticated calls to the API host. Two distinct surfaces exist with two distinct
+  auth postures.
+summary:
+  types: [none, custom-credential-pair]
+  api_key_in: [body]
+  oauth2_flows: []
+  bearer: false
+  oauth2: false
+  openid_connect: false
+  mutual_tls: false
+schemes:
+- name: none
+  type: none
+  api: STN Video oEmbed API
+  base_url: https://embed.sendtonews.com/services/oembed
+  description: >-
+    The oEmbed 1.0 endpoint is public and unauthenticated. A GET with a `url` parameter
+    naming an embed.sendtonews.com resource returns a 200 oEmbed video payload with no
+    credential of any kind.
+  evidence:
+  - request: >-
+      GET https://embed.sendtonews.com/services/oembed?url=https%3A%2F%2Fembed.sendtonews.com%2Foembed%2F%3FSC%3D<share-code>&format=json
+    status: 200
+    content_type: application/json; charset=UTF-8
+    observed: '2026-08-12'
+- name: cid + authcode
+  type: custom-credential-pair
+  api: STN Video Publisher API
+  base_url: https://api.sendtonews.com/api/v1/
+  in: body
+  parameters:
+  - name: cid
+    description: Company ID issued by STN Video to a publisher account.
+  - name: authcode
+    description: Authentication Code issued alongside the Company ID.
+  transport: POST, application/x-www-form-urlencoded request body
+  verification_operation: POST /api/v1/auth/verifycode
+  issuance: >-
+    Credentials are not self-serve. The publisher documentation directs integrators to
+    publishers@stnvideo.com to obtain a Company ID and Authentication Code, so the API is
+    customer-gated rather than open.
+  description: >-
+    Every STN Video Publisher API operation carries the same credential pair in the POST
+    body — there is no header scheme, no bearer token, no OAuth, and no scope model. The
+    plugin additionally sends non-credential telemetry fields (appName, appVersion,
+    cmsVersion, appComponent) on the verification call.
+  evidence:
+  - request: POST https://api.sendtonews.com/api/v1/auth/verifycode (no body)
+    status: 422
+    response: '{"success":false,"code":422,"errors":{"authcode":"authcode is required","cid":"cid is required"}}'
+    observed: '2026-08-12'
+  - request: POST https://api.sendtonews.com/api/v1/players (no body)
+    status: 422
+    response: '{"success":false,"code":422,"errors":{"authcode":"authcode is required","cid":"cid is required"}}'
+    observed: '2026-08-12'
+  - source: sendtonews/app/Controllers/AdminController.php (plugin v1.2.2)
+    kind: first-party client source
+gaps:
+- No published authentication reference page; the credential model had to be read out of
+  the provider's own plugin source.
+- Credentials are transmitted as body parameters on every call rather than exchanged for a
+  short-lived token.
+- No OAuth 2.0, no OpenID Connect, no scopes, no key rotation or revocation surface is
+  documented.

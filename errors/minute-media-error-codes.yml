@@ -1,0 +1,64 @@
+generated: '2026-08-12'
+method: probed
+source: >-
+  Live unauthenticated requests to https://api.sendtonews.com/api/v1/ and
+  https://embed.sendtonews.com/services/oembed on 2026-08-12, plus the error-handling
+  branches in the first-party STN Video WordPress Player Selector plugin v1.2.2.
+format: custom-json
+rfc9457: false
+notes: >-
+  Minute Media publishes no error reference. Every entry below was observed on a live
+  response or read from the company's own client code; nothing is inferred. The platform
+  uses TWO different, mutually incompatible JSON error envelopes on the same API host,
+  which is the most notable finding here — a client cannot parse errors with one shape.
+envelopes:
+- name: routing-error
+  shape: '{"error":{"code":<int>,"messages":"<string>"}}'
+  used_by: unmatched routes on api.sendtonews.com and embed.sendtonews.com
+  example: '{"error":{"code":404,"messages":"path not found: (GET /openapi.json)"}}'
+- name: validation-error
+  shape: '{"success":false,"code":<int>,"errors":{"<field>":"<message>"}}'
+  used_by: matched operations on api.sendtonews.com/api/v1/
+  example: '{"success":false,"code":422,"errors":{"authcode":"authcode is required","cid":"cid is required"}}'
+  client_handling: >-
+    The first-party plugin reads `response.success`, then takes the first key of
+    `response.errors` as the human-facing message — so field order is load-bearing for the
+    message a publisher sees.
+errors:
+- status: 404
+  envelope: routing-error
+  code: 404
+  title: path not found
+  message_pattern: 'path not found: (<METHOD> <path>)'
+  meaning: The requested path is not routed on this API host.
+  remediation: Check the base path; the Publisher API is rooted at /api/v1/, not /.
+  observed_on: https://api.sendtonews.com/api/v1/players (GET)
+  evidence_status: 404
+- status: 422
+  envelope: validation-error
+  code: 422
+  title: missing required credential
+  fields: [cid, authcode]
+  meaning: >-
+    A Publisher API operation was called without the Company ID / Authentication Code pair.
+    Note this is returned as 422, not 401 — an unauthenticated call is reported as a
+    validation failure, so an agent cannot distinguish "no credential" from "bad field".
+  remediation: Send `cid` and `authcode` in the POST body; obtain them from publishers@stnvideo.com.
+  observed_on: https://api.sendtonews.com/api/v1/auth/verifycode (POST)
+  evidence_status: 422
+- status: 400
+  envelope: routing-error
+  code: 400
+  title: url must include SC or fk
+  meaning: >-
+    The oEmbed endpoint was called without a resolvable resource. The `url` parameter must
+    reference an embed.sendtonews.com resource carrying either an `SC` (share code) or an
+    `fk` (video key) query parameter.
+  remediation: Pass a full, URL-encoded `url` that contains SC=<share-code> or fk=<video-key>.
+  observed_on: https://embed.sendtonews.com/services/oembed
+  evidence_status: 400
+gaps:
+- No published error catalog or status-code reference.
+- No RFC 9457 problem+json; no machine-readable `type` URI per error.
+- Authentication failures are surfaced as 422 validation errors rather than 401/403.
+- Two envelope shapes on one host with no documented rule for which applies.

@@ -1,0 +1,19 @@
+generated: '2026-08-12'
+method: searched
+source: https://www.minutemedia.com/solutions/publishers
+plan_count: 0
+currency: null
+plans: []
+notes: >-
+  Minute Media publishes no pricing or plan tiers for any of its products. There is no
+  /pricing page on minutemedia.com or stnvideo.com (https://www.stnvideo.com/pricing/
+  returned 404 on 2026-08-12), no self-serve signup, and no published rate card for the
+  STN Online Video Platform, the Minute Media SSP or the ad-management solution. The
+  commercial motion is a contact form and a revenue-share conversation: the publisher
+  solutions page sells "premium revenue" and monetization share rather than a subscription,
+  and API credentials (Company ID + Authentication Code) are issued by emailing
+  publishers@stnvideo.com. This is a recorded zero, not a gap in the search.
+evidence:
+- {url: 'https://www.stnvideo.com/pricing/', status: 404}
+- {url: 'https://www.minutemedia.com/solutions/publishers', status: 200}
+- {url: 'https://www.minutemedia.com/company/contact', status: 200}

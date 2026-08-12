@@ -1,0 +1,84 @@
+generated: '2026-08-12'
+method: probed
+source: live HTTPS probes of every Minute Media / STN Video host on 2026-08-12
+notes: >-
+  Every RFC 8615 well-known path was probed on all eight hosts Minute Media and STN Video
+  operate (marketing sites, the OVP marketing site, the publisher dashboard, the two live
+  API hosts, the AMP player host). Nothing is served: every path returns 404 on the hosts
+  that answer, and the publisher dashboard (pub.stnvideo.com) returns 503 to our client on
+  every path including its own root, so nothing could be read there either. This file
+  records a verified ABSENCE — no WellKnown or SecurityTxt pointer is emitted in apis.yml,
+  because the provider serves none of these documents.
+hosts:
+- host: https://www.minutemedia.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /llms.txt, status: 404}
+- host: https://www.stnvideo.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /llms.txt, status: 404}
+- host: https://api.sendtonews.com
+  note: live STN Video Publisher API host; answers with a JSON error envelope on every miss
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /llms.txt, status: 404}
+- host: https://embed.sendtonews.com
+  note: live STN Video oEmbed + player host
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /llms.txt, status: 404}
+- host: https://www.ovp.stnvideo.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /llms.txt, status: 404}
+- host: https://amp.stnvideo.com
+  note: AMP video-iframe integration host (/avi/?key=)
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /llms.txt, status: 404}
+- host: https://pub.stnvideo.com
+  note: >-
+    STN Video Publisher's Dashboard. Returned 503 to our client on the root and on every
+    well-known path — treated as unreadable, not as an absence.
+  documents:
+  - {path: /, status: 503}
+  - {path: /.well-known/security.txt, status: 503}
+  - {path: /.well-known/agent-card.json, status: 503}
+  - {path: /llms.txt, status: 503}
+summary:
+  hosts_probed: 7
+  paths_returning_200: 0
+  security_txt: false
+  agent_card: false
+  api_catalog: false

@@ -1,15 +1,16 @@
 aid: minute-media
 accessModel:
   pricing: unknown
-  onboarding: unknown
+  onboarding: sales
   trial: false
   try_now: false
   public: false
-  label: Unknown
-  confidence: low
-  source: []
-  generated: '2026-07-22'
-  method: derived
+  label: Partner
+  confidence: medium
+  source:
+  - https://www.stnvideo.com/resources/our-wordpress-ovp-plugin/
+  generated: '2026-08-12'
+  method: probed
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/minute-media.png
 name: Minute Media
 description: >-
@@ -21,8 +22,12 @@ description: >-
   Platform (OVP) for video publishing and monetization, a Minute Media SSP for programmatic
   advertising, and ad-management solutions for publishers. Minute Media was surfaced as a
   portfolio company of Battery Ventures and added to the API Evangelist network for enrichment.
-  As of this pass the company publishes no public developer portal, API documentation, or
-  machine-readable API definitions on its primary web properties.
+  The company publishes no developer portal, no API reference and no machine-readable API
+  definition, but two real API surfaces are live and were verified by probe: a public oEmbed 1.0
+  endpoint at embed.sendtonews.com that any publisher can call unauthenticated, and a
+  credential-gated STN Video Publisher API at api.sendtonews.com/api/v1 whose only public client
+  is Minute Media's own WordPress plugin. Both hosts still carry the pre-acquisition SendtoNews
+  brand two renames later.
 url: https://raw.githubusercontent.com/api-evangelist/minute-media/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -32,11 +37,11 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-20'
+modified: '2026-08-12'
 x-enrichment:
-  date: '2026-07-20'
+  date: '2026-08-12'
   status: enriched
-  artifacts_added: 1
+  artifacts_added: 10
   pass: local-v1
 tags:
 - Company
@@ -47,18 +52,118 @@ tags:
 - Publishing
 - AdTech
 - Content
-apis: []
+- oEmbed
+- Online Video Platform
+apis:
+- name: STN Video oEmbed API
+  description: >-
+    The public oEmbed 1.0 provider endpoint for STN Video (formerly SendtoNews), Minute
+    Media's online video platform. A GET with a URL-encoded `url` naming an
+    embed.sendtonews.com resource that carries an `SC` share code or an `fk` video key
+    returns a type `video` oEmbed payload — provider_name, author_name, title, width,
+    height, cache_age and the player `html` — in either JSON or XML. It is unauthenticated
+    and CORS-open, and it is the surface Minute Media registers with WordPress through its
+    own oEmbed plugin. Verified live with an HTTP 200 on 2026-08-12.
+  humanURL: https://www.stnvideo.com/resources/our-wordpress-ovp-plugin/
+  baseURL: https://embed.sendtonews.com/services/oembed
+  tags:
+  - oEmbed
+  - Video
+  - Embed
+  - Media
+  properties:
+  - type: Documentation
+    url: https://www.stnvideo.com/resources/our-wordpress-ovp-plugin/
+  - type: Authentication
+    url: authentication/minute-media-authentication.yml
+  - type: ErrorCatalog
+    url: errors/minute-media-error-codes.yml
+  - type: Conventions
+    url: conventions/minute-media-conventions.yml
+  - type: Conformance
+    url: conformance/minute-media-conformance.yml
+  - type: Components
+    url: components/minute-media-components.yml
+- name: STN Video Publisher API
+  description: >-
+    The credential-gated publisher API behind the STN Online Video Platform. Every
+    operation is a POST to https://api.sendtonews.com/api/v1/ carrying a `cid` (Company ID)
+    and `authcode` (Authentication Code) in the request body; the operations exercised by
+    Minute Media's own WordPress Player Selector plugin are auth/verifycode, players,
+    categories and stories, the last supporting search, language, category and
+    offset/length paging over a publisher's video library. There is no public reference and
+    no machine-readable definition; credentials are issued by emailing
+    publishers@stnvideo.com. Verified live on 2026-08-12 — an unauthenticated POST returns
+    HTTP 422 with a structured validation envelope.
+  humanURL: https://www.stnvideo.com/resources/our-wordpress-ovp-plugin/
+  baseURL: https://api.sendtonews.com/api/v1/
+  tags:
+  - Video
+  - Publishing
+  - Content
+  - Media
+  properties:
+  - type: Documentation
+    url: https://www.stnvideo.com/resources/our-wordpress-ovp-plugin/
+  - type: Authentication
+    url: authentication/minute-media-authentication.yml
+  - type: ErrorCatalog
+    url: errors/minute-media-error-codes.yml
+  - type: Conventions
+    url: conventions/minute-media-conventions.yml
+  - type: Lifecycle
+    url: lifecycle/minute-media-lifecycle.yml
+  - type: RateLimits
+    url: rate-limits/minute-media-rate-limits.yml
+  - type: SignUp
+    url: https://pub.stnvideo.com/auth/login
 common:
 - type: DomainSecurity
   url: security/minute-media-domain-security.yml
 - type: Packages
   url: packages/minute-media-packages.yml
+- type: Authentication
+  url: authentication/minute-media-authentication.yml
+- type: ErrorCatalog
+  url: errors/minute-media-error-codes.yml
+- type: Conventions
+  url: conventions/minute-media-conventions.yml
+- type: Lifecycle
+  url: lifecycle/minute-media-lifecycle.yml
+- type: Conformance
+  url: conformance/minute-media-conformance.yml
+- type: Components
+  url: components/minute-media-components.yml
+- type: RateLimits
+  url: rate-limits/minute-media-rate-limits.yml
+- type: Plans
+  url: plans/minute-media-plans-pricing.yml
+- type: LLMsTxt
+  url: llms/minute-media-llms.txt
 - type: Website
   url: https://www.minutemedia.com
 - type: Company
-  url: https://www.minutemedia.com/company/about
+  url: https://www.minutemedia.com/company/about-us
+- type: Documentation
+  url: https://www.stnvideo.com/resources/our-wordpress-ovp-plugin/
+- type: Support
+  url: https://www.minutemedia.com/company/contact
 - type: Blog
   url: https://www.stnvideo.com/category/newsroom/
+- type: GitHubOrganization
+  url: https://github.com/minutemedia
+- type: SignUp
+  url: https://pub.stnvideo.com/auth/login
+- type: TermsOfService
+  url: https://www.minutemedia.com/policies/terms-and-conditions
+- type: PrivacyPolicy
+  url: https://www.minutemedia.com/policies/privacy-policy
+- type: CookiePolicy
+  url: https://www.minutemedia.com/policies/cookie-policy
+- type: TakedownPolicy
+  url: https://www.minutemedia.com/policies/takedown-policy
+- type: Careers
+  url: https://www.minutemedia.com/company/careers
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

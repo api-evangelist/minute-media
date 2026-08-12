@@ -1,0 +1,23 @@
+generated: '2026-08-12'
+method: probed
+source: >-
+  Live responses from https://api.sendtonews.com/api/v1/ and
+  https://embed.sendtonews.com/services/oembed observed on 2026-08-12.
+limit_count: 0
+limits: []
+response_headers: []
+exhaustion_status: null
+retry_after: false
+notes: >-
+  No rate limits are documented and none are signalled at runtime. Full response headers
+  were captured from a 200 oEmbed call and from 400/404/422 API responses on both hosts;
+  the set is content-type, content-length, date, the CORS allow-* trio, x-cache, via,
+  x-amz-cf-pop, x-amz-cf-id, alt-svc and cache-control. There is no RateLimit-*,
+  X-RateLimit-*, Retry-After or quota header of any kind, and no documentation page states
+  a limit. An integrator has no runtime signal for how hard either surface may be called;
+  the only observable throttle boundary is whatever Amazon CloudFront enforces in front of
+  the origins. Honest zero.
+evidence:
+- {url: 'https://embed.sendtonews.com/services/oembed?url=...&format=json', status: 200, rate_limit_headers: none}
+- {url: 'https://api.sendtonews.com/api/v1/auth/verifycode', status: 422, rate_limit_headers: none}
+- {url: 'https://api.sendtonews.com/api/v1/players', status: 422, rate_limit_headers: none}

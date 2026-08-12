@@ -1,0 +1,73 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://www.stnvideo.com/resources/our-wordpress-ovp-plugin/ and the first-party STN
+  Video WordPress Player Selector plugin v1.2.2 (readme.txt, assets/js/loader.js,
+  app/Controllers/ShortcodeController.php), plus the live oEmbed payloads returned by
+  https://embed.sendtonews.com/services/oembed on 2026-08-12.
+notes: >-
+  Minute Media's real integration surface for third-party publishers is client-side embed
+  components, not a server-side SDK. Every embed named below appears in the provider's own
+  documentation or in the HTML the oEmbed endpoint returns verbatim; nothing is invented.
+families:
+- family: STN Video player embeds
+  loader_hosts: [embed.sendtonews.com, embed.stnvideo.com]
+  mount_element: "<div class='s2nFriendlyFrame k-<key>' data-type='<type>'></div>"
+  activation: >-
+    A script tag loads the player build and binds to the friendly-frame div; the key is
+    passed as either SC=<share-code> (a specific share) or fk=<video-key> (a video).
+  components:
+  - name: player1
+    loader: https://embed.sendtonews.com/player1/responsive.js
+    kind: responsive player build
+  - name: player2
+    loader: https://embed.sendtonews.com/player2/embedcode.php
+    kind: player build
+  - name: player3
+    loader: https://embed.sendtonews.com/player3/embedcode.js
+    kind: player build
+  - name: player4
+    loader: https://embed.sendtonews.com/player4/embedcode.js
+    kind: current player build; emitted by the oEmbed endpoint
+    evidence: >-
+      Returned inside the `html` field of a live oEmbed 200 response on 2026-08-12.
+  note: >-
+    STN Video's own documentation asks publishers to exclude these four loader scripts from
+    JS minification, which is how the full set is publicly enumerable.
+- family: Player types (selectable embed variants)
+  source: plugin assets/js/loader.js playerTextMapping
+  components:
+  - {name: single, label: Single Video Responsive Player}
+  - {name: float, label: Single Video Float Player}
+  - {name: amp, label: Single Video AMP Player}
+  - {name: amplist, label: Playlist AMP Player}
+  - {name: barker, label: Playlist Barker Player}
+  - {name: full, label: Smart Match Full Player}
+  - {name: player, label: Smart Match Float Player}
+  note: >-
+    Smart Match players read the contents of the hosting page to select the playlist, so
+    they only function on publicly reachable front-end pages.
+- family: AMP integration
+  components:
+  - name: STN AMP video-iframe
+    url: https://amp.stnvideo.com/avi/?key=<key>
+    kind: AMP video-iframe integration page
+    evidence: >-
+      Live 200 on 2026-08-12; the page loads
+      https://cdn.ampproject.org/video-iframe-integration-v0.js.
+- family: CMS integration surfaces
+  components:
+  - name: WordPress shortcode
+    usage: '[sendtonews key="<key>" type="player"]'
+    php: "<?php echo do_shortcode( '[sendtonews key=\"<key>\" type=\"player\"]' ); ?>"
+  - name: Gutenberg block
+    id: sendtonews block (assets/blocks/sendtonews/editor.js)
+    requires: plugin authorized with Company ID + Authentication Code
+  - name: Classic editor TinyMCE button
+    requires: plugin authorized with Company ID + Authentication Code
+  - name: WordPress widget
+    requires: plugin authorized with Company ID + Authentication Code
+  - name: oEmbed provider registration
+    provider_endpoint: https://embed.sendtonews.com/services/oembed
+    pattern: '#https?://embed.sendtonews\.com/.*#i'
+reference: packages/minute-media-packages.yml
