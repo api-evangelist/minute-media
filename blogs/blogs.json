@@ -2,10 +2,13 @@
   "repo": "minute-media",
   "feeds": [
     {
-      "source": "https://www.minutemedia.com/company/about",
-      "error": "HTTPError"
+      "source": "https://www.minutemedia.com/company/contact",
+      "feed_url": "https://www.minutemedia.com/company/contact",
+      "title": "",
+      "saved": 0,
+      "method": "none"
     }
   ],
   "post_count": 0,
-  "fetched": "2026-08-06T14:08:46Z"
+  "fetched": "2026-08-22T20:20:02Z"
 }
