@@ -64,6 +64,104 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Minute Media is a company surfaced as a portfolio company of battery-ventures and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+Minute Media is a global technology, media, and advertising company that builds and operates digital sports and entertainment content brands while licensing publishing and monetization technology to third parties. Its owned-and-operated properties include Sports Illustrated, The Players' Tribune, 90min, Mental Floss, FanSided, The Big Lead, and DBLTAP, reaching a reported 200+ million monthly users. On the technology side it offers the STN Online Video Platform (OVP) for video publishing and monetization, a Minute Media SSP for programmatic advertising, and ad-management solutions for publishers. Minute Media was surfaced as a portfolio company of Battery Ventures and added to the API Evangelist network for enrichment. The company publishes no developer portal, no API reference and no machine-readable API definition, but two real API surfaces are live and were verified by probe: a public oEmbed 1.0 endpoint at embed.sendtonews.com that any publisher can call unauthenticated, and a credential-gated STN Video Publisher API at api.sendtonews.com/api/v1 whose only public client is Minute Media's own WordPress plugin. Both hosts still carry the pre-acquisition SendtoNews brand two renames later.
 
-Backed by: battery-ventures
+**Areas:** Company · Media · Sports · Advertising · Video · Publishing · AdTech · Content · oEmbed · Online Video Platform
+
+## Minute Media on APIs.io
+
+Everything profiled for Minute Media is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/minute-media/](https://apis.io/providers/minute-media/)** — or go straight to one of the APIs or properties below.
+
+### APIs (2)
+
+- [STN Video oEmbed API](https://apis.io/apis/minute-media/stn-video-oembed-api/) — The public oEmbed 1.0 provider endpoint for STN Video (formerly SendtoNews), Minute Media's online video platform. A GET with a URL-encoded `url` naming an…
+- [STN Video Publisher API](https://apis.io/apis/minute-media/stn-video-publisher-api/) — The credential-gated publisher API behind the STN Online Video Platform. Every operation is a POST to https://api.sendtonews.com/api/v1/ carrying a `cid`…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Minute Media Authentication](https://apis.io/security/minute-media/minute-media-authentication/)
+- [Minute Media Domain Security](https://apis.io/security/minute-media/minute-media-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Minute Media Plans Pricing](https://apis.io/plans/minute-media/minute-media-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Minute Media Rate Limits](https://apis.io/rate-limits/minute-media/minute-media-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.minutemedia.com)
+- [Documentation](https://www.stnvideo.com/resources/our-wordpress-ovp-plugin/)
+- [Sign up](https://pub.stnvideo.com/auth/login)
+- [Support](https://www.minutemedia.com/company/contact)
+- [Blog](https://www.stnvideo.com/category/newsroom/)
+- [Terms of service](https://www.minutemedia.com/policies/terms-and-conditions)
+- [Privacy policy](https://www.minutemedia.com/policies/privacy-policy)
+- [GitHub](https://github.com/minutemedia)
+
+## API Evangelist rating
+
+**Kin Score 21.8** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 2.6 |
+| Developer ergonomics | 28.6 |
+| Access clarity | 27.6 |
+
+**Agent readiness 7.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 24.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/minute-media/](https://apis.io/providers/minute-media/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Minute Media: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/minute-media/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
